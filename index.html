@@ -4,6 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Bingo Tasks 5x5</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+  <link rel="icon" href="icon-192.png" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log("Service Worker Registered"))
+          .catch((err) => console.error("SW Registration Failed", err));
+      });
+    }
+  </script>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
