@@ -2,23 +2,18 @@ const APP_VERSION = 'v1.1';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Check if we need to refresh due to a new version
     const lastVersion = localStorage.getItem('appVersion');
     if (lastVersion && lastVersion !== APP_VERSION) {
-      // Clear cache and reload with a slight delay
       console.log("New version detected, updating...");
-      caches.keys().then(function(names) {
+      caches.keys().then(function (names) {
         for (let name of names) caches.delete(name);
       });
       setTimeout(() => window.location.reload(true), 500);
     }
-    
-    // Register service worker
+
     navigator.serviceWorker.register('service-worker.js')
       .then((registration) => {
         console.log("Service Worker Registered");
-        
-        // Check for updates
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
           newWorker.addEventListener('statechange', () => {
@@ -30,12 +25,10 @@ if ('serviceWorker' in navigator) {
         });
       })
       .catch((err) => console.error("SW Registration Failed", err));
-      
-    // Update version in localStorage
+
     localStorage.setItem('appVersion', APP_VERSION);
   });
-  
-  // Listen for controller change events
+
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     console.log('Controller changed, reloading...');
     window.location.reload(true);
@@ -51,38 +44,57 @@ const COLS = 5;
 
 const rowHeaders = [];
 const colHeaders = [];
-const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-function addHoldListener(element, callback) {
-  let timer;
-  let isHolding = false;
+function addHoldListener(element, onHold, onClick) {
+  let timer, isHolding = false;
 
   const start = (e) => {
+    e.preventDefault();
     isHolding = false;
     timer = setTimeout(() => {
       isHolding = true;
-      callback();
+      onHold(e);
     }, 400);
   };
 
-  const cancel = (e) => {
+  const end = (e) => {
     clearTimeout(timer);
-    if (isHolding) e.preventDefault(); // only prevent default if hold actually triggered
+    if (!isHolding) {
+      onClick(e);
+    }
   };
 
-  element.addEventListener('touchstart', start);
   element.addEventListener('mousedown', start);
-  element.addEventListener('touchend', cancel);
-  element.addEventListener('touchcancel', cancel);
-  element.addEventListener('mouseup', cancel);
-  element.addEventListener('mouseleave', cancel);
+  element.addEventListener('touchstart', start);
+
+  element.addEventListener('mouseup', end);
+  element.addEventListener('touchend', end);
+
+  element.addEventListener('mouseleave', () => clearTimeout(timer));
+  element.addEventListener('touchcancel', () => clearTimeout(timer));
 
   element.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    callback();
+    onHold(e);
   });
 }
 
+function flipCard(card, id) {
+  card.classList.toggle('flipped');
+  const isFlipped = card.classList.contains('flipped');
+
+  savedCards[id] = savedCards[id] || {};
+  savedCards[id].flipped = isFlipped;
+
+  if (!savedCards[id].text) {
+    const front = card.querySelector('.card-front');
+    savedCards[id].text = front.textContent;
+    savedCards[id].date = getCurrentDateFormatted();
+  }
+
+  localStorage.setItem('cardData', JSON.stringify(savedCards));
+  updateHeaderHighlights();
+}
 
 function getCurrentDateFormatted() {
   const now = new Date();
@@ -99,12 +111,12 @@ function makeEditableHeader(content, type, index) {
 
   addHoldListener(th, () => {
     const newHeader = prompt(`Enter new name for ${type} ${index + 1}:`, th.textContent);
-    if (newHeader !== null && newHeader.trim() !== "") {
+    if (newHeader && newHeader.trim()) {
       th.textContent = newHeader;
       savedHeaders[key] = newHeader;
       localStorage.setItem('headersData', JSON.stringify(savedHeaders));
     }
-  });
+  }, () => {});
 
   if (type === 'row') rowHeaders[index] = th;
   else colHeaders[index] = th;
@@ -180,13 +192,13 @@ const headerRow = document.createElement('tr');
 headerRow.appendChild(document.createElement('th'));
 
 for (let col = 0; col < COLS; col++) {
-  headerRow.appendChild(makeEditableHeader(`Not Assigned`, 'col', col));
+  headerRow.appendChild(makeEditableHeader('Not Assigned', 'col', col));
 }
 table.appendChild(headerRow);
 
 for (let row = 0; row < ROWS; row++) {
   const tr = document.createElement('tr');
-  tr.appendChild(makeEditableHeader(`Not Assigned`, 'row', row));
+  tr.appendChild(makeEditableHeader('Not Assigned', 'row', row));
 
   for (let col = 0; col < COLS; col++) {
     const id = `${row}-${col}`;
@@ -200,21 +212,13 @@ for (let row = 0; row < ROWS; row++) {
 
     const front = document.createElement('div');
     front.className = 'card-front';
-    
-    // Updated default text for cards
-    if (savedCards[id]?.text) {
-      front.textContent = savedCards[id].text;
-    } else {
-      front.textContent = 'Not Assigned';
-    }
+    front.textContent = savedCards[id]?.text || 'Not Assigned';
 
     const back = document.createElement('div');
     back.className = 'card-back';
-    if (savedCards[id]) {
-      back.innerHTML = `${savedCards[id].text}<div class="date">${savedCards[id].date}</div>`;
-    } else {
-      back.innerHTML = 'Completed!';
-    }
+    back.innerHTML = savedCards[id]
+      ? `${savedCards[id].text}<div class="date">${savedCards[id].date}</div>`
+      : 'Completed!';
 
     inner.appendChild(front);
     inner.appendChild(back);
@@ -224,37 +228,25 @@ for (let row = 0; row < ROWS; row++) {
       card.classList.add('flipped');
     }
 
-    card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
-      const isFlipped = card.classList.contains('flipped');
-      savedCards[id] = savedCards[id] || {};
-      savedCards[id].flipped = isFlipped;
-      
-      // Make sure we save text even if it's the default text
-      if (!savedCards[id].text) {
-        savedCards[id].text = front.textContent;
-        savedCards[id].date = getCurrentDateFormatted();
-      }
-      
-      localStorage.setItem('cardData', JSON.stringify(savedCards));
-      updateHeaderHighlights();
-    });
-
-    addHoldListener(card, () => {
-      const currentText = savedCards[id]?.text || front.textContent;
-      const newText = prompt('Enter new text for this card:', currentText);
-      if (newText !== null && newText.trim() !== "") {
-        const currentDate = getCurrentDateFormatted();
-        front.textContent = newText;
-        back.innerHTML = `${newText}<div class="date">${currentDate}</div>`;
-        savedCards[id] = {
-          text: newText,
-          date: currentDate,
-          flipped: card.classList.contains('flipped')
-        };
-        localStorage.setItem('cardData', JSON.stringify(savedCards));
-      }
-    });
+    addHoldListener(
+      card,
+      () => {
+        const currentText = savedCards[id]?.text || front.textContent;
+        const newText = prompt('Enter new text for this card:', currentText);
+        if (newText && newText.trim()) {
+          const currentDate = getCurrentDateFormatted();
+          front.textContent = newText;
+          back.innerHTML = `${newText}<div class="date">${currentDate}</div>`;
+          savedCards[id] = {
+            text: newText,
+            date: currentDate,
+            flipped: card.classList.contains('flipped')
+          };
+          localStorage.setItem('cardData', JSON.stringify(savedCards));
+        }
+      },
+      () => flipCard(card, id)
+    );
 
     td.appendChild(card);
     tr.appendChild(td);
