@@ -86,11 +86,16 @@ function flipCard(card, id) {
   savedCards[id] = savedCards[id] || {};
   savedCards[id].flipped = isFlipped;
 
-  if (!savedCards[id].text) {
-    const front = card.querySelector('.card-front');
-    savedCards[id].text = front.textContent;
-    savedCards[id].date = getCurrentDateFormatted();
-  }
+  const front = card.querySelector('.card-front');
+  const back = card.querySelector('.card-back');
+  const currentDate = getCurrentDateFormatted();
+
+  // Store and update text and date
+  savedCards[id].text = savedCards[id].text || front.textContent;
+  savedCards[id].date = currentDate;
+
+  // Always update back side content to reflect current date
+  back.innerHTML = `${savedCards[id].text}<div class="date">${currentDate}</div>`;
 
   localStorage.setItem('cardData', JSON.stringify(savedCards));
   updateHeaderHighlights();
