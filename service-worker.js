@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'bingo-cache-v2';
+const CACHE_VERSION = 'bingo-cache-v2.1';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
