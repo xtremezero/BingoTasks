@@ -1,8 +1,44 @@
+const APP_VERSION = 'v1.1';
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
+    // Check if we need to refresh due to a new version
+    const lastVersion = localStorage.getItem('appVersion');
+    if (lastVersion && lastVersion !== APP_VERSION) {
+      // Clear cache and reload with a slight delay
+      console.log("New version detected, updating...");
+      caches.keys().then(function(names) {
+        for (let name of names) caches.delete(name);
+      });
+      setTimeout(() => window.location.reload(true), 500);
+    }
+    
+    // Register service worker
     navigator.serviceWorker.register('service-worker.js')
-      .then(() => console.log("Service Worker Registered"))
+      .then((registration) => {
+        console.log("Service Worker Registered");
+        
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('New content available, reloading...');
+              window.location.reload(true);
+            }
+          });
+        });
+      })
       .catch((err) => console.error("SW Registration Failed", err));
+      
+    // Update version in localStorage
+    localStorage.setItem('appVersion', APP_VERSION);
+  });
+  
+  // Listen for controller change events
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    console.log('Controller changed, reloading...');
+    window.location.reload(true);
   });
 }
 
