@@ -134,13 +134,13 @@ const headerRow = document.createElement('tr');
 headerRow.appendChild(document.createElement('th'));
 
 for (let col = 0; col < COLS; col++) {
-  headerRow.appendChild(makeEditableHeader(`RightClick to edit reward`, 'col', col));
+  headerRow.appendChild(makeEditableHeader(`Not Assigned`, 'col', col));
 }
 table.appendChild(headerRow);
 
 for (let row = 0; row < ROWS; row++) {
   const tr = document.createElement('tr');
-  tr.appendChild(makeEditableHeader(`RightClick to edit reward`, 'row', row));
+  tr.appendChild(makeEditableHeader(`Not Assigned`, 'row', row));
 
   for (let col = 0; col < COLS; col++) {
     const id = `${row}-${col}`;
@@ -159,9 +159,7 @@ for (let row = 0; row < ROWS; row++) {
     if (savedCards[id]?.text) {
       front.textContent = savedCards[id].text;
     } else {
-      front.innerHTML = isMobile 
-        ? 'Tap to complete<br>Hold to edit' 
-        : 'Click to complete<br>Right-click to edit';
+      front.textContent = 'Not Assigned';
     }
 
     const back = document.createElement('div');

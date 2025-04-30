@@ -14,13 +14,17 @@
 
 <body>
   <h2>Bingo Tasks 5x5</h2>
-  <p style="margin-top: -20px; margin-bottom: 20px; text-align: center; color: #555;">Long Term Tasks and Rewards Tracker</p>
+  <p style="margin-top: -20px; margin-bottom: 20px; text-align: center; color: #666;">Long Term Tasks and Rewards Tracker</p>
 
   <div style="margin-bottom: 20px;">
     <button onclick="exportData()">Export Data</button>
     <input type="file" id="importFile" accept=".json" style="display:none" />
     <button onclick="document.getElementById('importFile').click()">Import Data</button>
   </div>
+  
+  <p style="margin-bottom: 20px; text-align: center; color: #555; background: #e8f5e9; padding: 10px; border-radius: 8px; max-width: 90%; width: 600px;">
+    Tap or LeftClick to complete a task or Reward, Hold or RightClick to Edit it
+  </p>
 
   <table id="cardTable"></table>
 </body>
