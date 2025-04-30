@@ -55,11 +55,20 @@ const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 function addHoldListener(element, callback) {
   let timer;
+  let isHolding = false;
+
   const start = (e) => {
-    e.preventDefault();
-    timer = setTimeout(callback, 400); // Reduced to 400ms
+    isHolding = false;
+    timer = setTimeout(() => {
+      isHolding = true;
+      callback();
+    }, 400);
   };
-  const cancel = () => clearTimeout(timer);
+
+  const cancel = (e) => {
+    clearTimeout(timer);
+    if (isHolding) e.preventDefault(); // only prevent default if hold actually triggered
+  };
 
   element.addEventListener('touchstart', start);
   element.addEventListener('mousedown', start);
@@ -73,6 +82,7 @@ function addHoldListener(element, callback) {
     callback();
   });
 }
+
 
 function getCurrentDateFormatted() {
   const now = new Date();
