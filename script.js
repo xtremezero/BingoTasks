@@ -134,13 +134,13 @@ const headerRow = document.createElement('tr');
 headerRow.appendChild(document.createElement('th'));
 
 for (let col = 0; col < COLS; col++) {
-  headerRow.appendChild(makeEditableHeader(`Col ${col + 1}`, 'col', col));
+  headerRow.appendChild(makeEditableHeader(`RightClick to edit reward`, 'col', col));
 }
 table.appendChild(headerRow);
 
 for (let row = 0; row < ROWS; row++) {
   const tr = document.createElement('tr');
-  tr.appendChild(makeEditableHeader(`Row ${row + 1}`, 'row', row));
+  tr.appendChild(makeEditableHeader(`RightClick to edit reward`, 'row', row));
 
   for (let col = 0; col < COLS; col++) {
     const id = `${row}-${col}`;
@@ -154,16 +154,22 @@ for (let row = 0; row < ROWS; row++) {
 
     const front = document.createElement('div');
     front.className = 'card-front';
-    front.textContent = savedCards[id]?.text || `(${row + 1},${col + 1})`;
+    
+    // Updated default text for cards
+    if (savedCards[id]?.text) {
+      front.textContent = savedCards[id].text;
+    } else {
+      front.innerHTML = isMobile 
+        ? 'Tap to complete<br>Hold to edit' 
+        : 'Click to complete<br>Right-click to edit';
+    }
 
     const back = document.createElement('div');
     back.className = 'card-back';
     if (savedCards[id]) {
       back.innerHTML = `${savedCards[id].text}<div class="date">${savedCards[id].date}</div>`;
     } else {
-      back.innerHTML = isMobile
-        ? 'Tap to set complete<br>Hold to edit'
-        : 'Click to set complete<br>Right-click to edit';
+      back.innerHTML = 'Completed!';
     }
 
     inner.appendChild(front);
@@ -179,6 +185,13 @@ for (let row = 0; row < ROWS; row++) {
       const isFlipped = card.classList.contains('flipped');
       savedCards[id] = savedCards[id] || {};
       savedCards[id].flipped = isFlipped;
+      
+      // Make sure we save text even if it's the default text
+      if (!savedCards[id].text) {
+        savedCards[id].text = front.textContent;
+        savedCards[id].date = getCurrentDateFormatted();
+      }
+      
       localStorage.setItem('cardData', JSON.stringify(savedCards));
       updateHeaderHighlights();
     });

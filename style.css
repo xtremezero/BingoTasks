@@ -25,11 +25,42 @@ th, td {
 th {
   background: #dfe6ed;
   color: #333;
-  padding: 8px 12px;
+  padding: 8px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   user-select: none;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+/* Updated Button Styles */
+button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0 10px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #388E3C;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 
 .card {
@@ -94,6 +125,7 @@ th {
   opacity: 0.8;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .card {
     width: 80px;
@@ -102,10 +134,23 @@ th {
 
   .card-front,
   .card-back {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .date {
-    font-size: 11px;
+    font-size: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 0 5px 10px 5px;
+  }
+  
+  th {
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+    font-size: 13px;
   }
 }
