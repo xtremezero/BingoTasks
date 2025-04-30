@@ -31,6 +31,15 @@
   </p>
 
   <table id="cardTable"></table>
+
+  <footer style="margin-top: 40px; text-align: center; font-size: 0.9em; color: #999; padding: 20px 0;">
+    &copy; <span id="year"></span> M.Eltawil (<a href="https://github.com/Xtremezero" target="_blank" style="color: #4CAF50;">Xtremezero</a>)
+  </footer>
+
+  <script>
+    // Dynamically set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 
 </html>
