@@ -79,7 +79,6 @@ button:active {
   transform-style: preserve-3d;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  pointer-events: none;
 }
 
 .card.flipped .card-inner {
