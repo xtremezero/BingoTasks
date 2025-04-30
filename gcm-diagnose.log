@@ -1,0 +1,195 @@
+﻿Diagnose log at 2025-04-30T10:47:54Z
+
+AppPath: /usr/bin/git-credential-manager
+InstallDir: /usr/lib/share/git-credential-manager/
+Version: 2.6.1+cfde1f3f2d4294d4e690a9b80ed9502692c96860
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Linux
+OSVersion: Arch Linux
+Reading environment variables... OK
+ Variables:
+SESSION_MANAGER=local/XZBlade:@/tmp/.ICE-unix/920,unix/XZBlade:/tmp/.ICE-unix/920
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+GTK_MODULES=canberra-gtk-module
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+GDMSESSION=cinnamon
+CSF_SHMessage=/usr/share/opencascade/resources/SHMessage
+GIT_TRACE2_PARENT_SID=07a05563-2b02-4048-982c-2a4a9b47caab
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+SHELL=/bin/fish
+MMGT_CLEAR=1
+VTE_VERSION=8001
+HOME=/home/xtremezero
+CSF_LANGUAGE=us
+MAIL=/var/spool/mail/xtremezero
+XDG_RUNTIME_DIR=/run/user/1000
+XDG_SESSION_ID=2
+USER=xtremezero
+CSF_IGESDefaults=/usr/share/opencascade/resources/XSTEPResource
+CSF_STEPDefaults=/usr/share/opencascade/resources/XSTEPResource
+CSF_TObjMessage=/usr/share/opencascade/resources/TObj
+XDG_CURRENT_DESKTOP=X-Cinnamon
+CSF_ShadersDirectory=/usr/share/opencascade/resources/Shaders
+XAUTHORITY=/home/xtremezero/.Xauthority
+CSF_StandardLiteDefaults=/usr/share/opencascade/resources/StdResource
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/xtremezero
+CSF_XmlOcafResource=/usr/share/opencascade/resources/XmlOcafResource
+XDG_SESSION_DESKTOP=cinnamon
+CINNAMON_VERSION=6.4.9
+CASROOT=/usr
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/aab8664b_1e2c_4db1_9993_d584cd1bb1a2
+XDG_VTNR=7
+DRAWDEFAULT=/usr/share/opencascade/resources/DrawResources/DrawDefault
+DEBUGINFOD_URLS=https://debuginfod.archlinux.org 
+TERM=xterm-256color
+XDG_SEAT=seat0
+CSF_MIGRATION_TYPES=/usr/share/opencascade/resources/StdResource/MigrationSheet.txt
+XDG_SESSION_TYPE=x11
+SHLVL=1
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+COLORTERM=truecolor
+CSF_OCCTResourcePath=/usr/share/opencascade/resources
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+CSF_EXCEPTION_PROMPT=1
+GNOME_TERMINAL_SERVICE=:1.105
+GTK3_MODULES=xapp-gtk3-module
+LANG=en_US.UTF-8
+CSF_XCAFDefaults=/usr/share/opencascade/resources/StdResource
+DISPLAY=:0
+HAXE_STD_PATH=/usr/share/haxe/std
+CSF_PluginDefaults=/usr/share/opencascade/resources/StdResource
+CSF_StandardDefaults=/usr/share/opencascade/resources/StdResource
+DESKTOP_SESSION=cinnamon
+XDG_SESSION_CLASS=user
+CSF_TObjDefaults=/usr/share/opencascade/resources/StdResource
+PWD=/home/xtremezero/Documents/Git/BingoTasks/BingoTasks
+MOTD_SHOWN=pam
+DRAWHOME=/usr/share/opencascade/resources/DrawResources
+CSF_MDTVTexturesDirectory=/usr/share/opencascade/resources/Textures
+CSF_XSMessage=/usr/share/opencascade/resources/XSMessage
+CSF_DrawPluginDefaults=/usr/share/opencascade/resources/DrawResources
+LOGNAME=xtremezero
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is '/tmp/'...
+Checking basic file I/O...
+Writing to temporary file '/tmp/7c8a439e8af5ae88bfc5bbd4'... OK
+Reading from temporary file '/tmp/7c8a439e8af5ae88bfc5bbd4'... OK
+Deleting temporary file '/tmp/7c8a439e8af5ae88bfc5bbd4'... OK
+Testing IFileSystem instance...
+UserHomePath: /home/xtremezero
+UserDataDirectoryPath: /home/xtremezero/.gcm
+GetCurrentDirectory(): /home/xtremezero/Documents/Git/BingoTasks/BingoTasks
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... OK
+ OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:37593/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.49.0'
+Locating current repository...Git repository at '/home/xtremezero/Documents/Git/BingoTasks/BingoTasks/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:/home/xtremezero/.gitconfig	user.name=xtremezero
+file:/home/xtremezero/.gitconfig	user.email=10077145+xtremezero@users.noreply.github.com
+file:/home/xtremezero/.gitconfig	credential.helper=
+file:/home/xtremezero/.gitconfig	credential.helper=/usr/bin/git-credential-manager
+file:/home/xtremezero/.gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	submodule.active=.
+file:.git/config	remote.origin.url=https://github.com/xtremezero/BingoTasks.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:.git/config	branch.main.remote=origin
+file:.git/config	branch.main.merge=refs/heads/main
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: False
+Exception:
+System.Exception: No credential store has been selected.
+
+Set the GCM_CREDENTIAL_STORE environment variable or the credential.credentialStore Git configuration setting to one of the following options:
+
+  secretservice : freedesktop.org Secret Service (requires graphical interface)
+  gpg           : GNU `pass` compatible credential storage (requires GPG and `pass`)
+  cache         : Git's in-memory credential cache
+  plaintext     : store credentials in plain-text files (UNSECURE)
+  none          : disable internal credential storage
+
+See https://aka.ms/gcm/credstores for more information.
+
+   at GitCredentialManager.CredentialStore.EnsureBackingStore()
+   at GitCredentialManager.CredentialStore.Remove(String service, String account)
+   at GitCredentialManager.Diagnostics.CredentialStoreDiagnostic.RunInternalAsync(StringBuilder log, IList`1 additionalFiles)
+   at GitCredentialManager.Diagnostics.Diagnostic.RunAsync()
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential...Deleting test credential...
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: /home/xtremezero/.local/.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: /home/xtremezero/.local/.IdentityService/msal.cache
+KeyringCollection: 
+KeyringSchemaName: 
+KeyringSecretLabel: 
+KeyringAttribute1: (,)
+KeyringAttribute2: (,)
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: True
+Exception: None
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint... OK
+
