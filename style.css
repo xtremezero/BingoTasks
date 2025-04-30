@@ -100,6 +100,8 @@ button:active {
   padding: 10px;
   box-sizing: border-box;
   transition: background 0.3s;
+  pointer-events: none;
+
 }
 
 .card-front {
@@ -145,6 +147,7 @@ button:active {
 
   .card-front,
   .card-back {
+	pointer-events: none;
     font-size: 10px;
     padding: 4px;
   }
