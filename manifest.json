@@ -1,7 +1,7 @@
 {
   "name": "Bingo Tasks 5x5",
   "short_name": "Bingo 5x5",
-  "start_url": ".",
+  "start_url": "/BingoTasks/",
   "display": "standalone",
   "background_color": "#f4f7fa",
   "theme_color": "#4CAF50",
