@@ -45,39 +45,6 @@ const COLS = 5;
 const rowHeaders = [];
 const colHeaders = [];
 
-function addHoldListener(element, onHold, onClick) {
-  let timer, isHolding = false;
-
-  const start = (e) => {
-    e.preventDefault();
-    isHolding = false;
-    timer = setTimeout(() => {
-      isHolding = true;
-      onHold(e);
-    }, 400);
-  };
-
-  const end = (e) => {
-    clearTimeout(timer);
-    if (!isHolding) {
-      onClick(e);
-    }
-  };
-
-  element.addEventListener('mousedown', start);
-  element.addEventListener('touchstart', start);
-
-  element.addEventListener('mouseup', end);
-  element.addEventListener('touchend', end);
-
-  element.addEventListener('mouseleave', () => clearTimeout(timer));
-  element.addEventListener('touchcancel', () => clearTimeout(timer));
-
-  element.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    onHold(e);
-  });
-}
 
 function flipCard(card, id) {
   card.classList.toggle('flipped');
@@ -114,14 +81,15 @@ function makeEditableHeader(content, type, index) {
   th.textContent = savedHeaders[key] || content;
   th.dataset.key = key;
 
-  addHoldListener(th, () => {
+  th.addEventListener("contextmenu", (e) => {
+    e.preventDefault()
     const newHeader = prompt(`Enter new name for ${type} ${index + 1}:`, th.textContent);
     if (newHeader && newHeader.trim()) {
       th.textContent = newHeader;
       savedHeaders[key] = newHeader;
       localStorage.setItem('headersData', JSON.stringify(savedHeaders));
     }
-  }, () => {});
+  })
 
   if (type === 'row') rowHeaders[index] = th;
   else colHeaders[index] = th;
@@ -232,10 +200,10 @@ for (let row = 0; row < ROWS; row++) {
     if (savedCards[id]?.flipped) {
       card.classList.add('flipped');
     }
-
-    addHoldListener(
-      card,
-      () => {
+    card.addEventListener("click", (e) => { flipCard(card, id) })
+    card.addEventListener("contextmenu",
+      (e) => {
+        e.preventDefault();
         const currentText = savedCards[id]?.text || front.textContent;
         const newText = prompt('Enter new text for this card:', currentText);
         if (newText && newText.trim()) {
@@ -249,9 +217,7 @@ for (let row = 0; row < ROWS; row++) {
           };
           localStorage.setItem('cardData', JSON.stringify(savedCards));
         }
-      },
-      () => flipCard(card, id)
-    );
+      })
 
     td.appendChild(card);
     tr.appendChild(td);
